@@ -1,34 +1,41 @@
-# Радио Волна (Radio Volna)
+# Радио Волна — Radio Volna
 
-Soviet-style internet radio console. Streams live public HTTPS radio stations through a vintage 1970s shortwave receiver UI.
+Soviet-style **working internet radio** web app. Crimson steel chassis, gold brass, CRT green dial, bakelite knobs — streams real live stations.
 
-## Run
+## Quick play (no install)
+
+Open the standalone console:
+
+**[radio.html](./radio.html)** — single file, open in any browser.
+
+Or serve the Vite app:
 
 ```bash
 npm install
 npm run dev
 ```
 
-Opens on `0.0.0.0:8080`.
+Runs on `0.0.0.0:8080`.
 
-## Stations
+## Stations (live HTTPS streams)
 
 | Channel | Stream |
 |---------|--------|
-| ВОЛНА-1 · Классика | Radio Paradise |
-| ВОЛНА-2 · Джаз | SomaFM Groove Salad |
-| КОСМОС | SomaFM Drone Zone |
-| ТРУД | SomaFM DEF CON |
-| ОРБИТА | SomaFM Space Station |
-| МАЯК · FIP | Radio France FIP |
-| НЕЖНОСТЬ | SomaFM Lush |
-| ГЛУБИНА | SomaFM Deep Space One |
+| **ВОЛНА-1 · Классика** | Radio Paradise |
+| **ВОЛНА-2 · Джаз** | SomaFM Groove Salad |
+| **КОСМОС** | SomaFM Drone Zone |
+| **ТРУД** | SomaFM DEF CON |
+| **ОРБИТА** | SomaFM Space Station |
+| **МАЯК · FIP** | Radio France FIP |
+| **НЕЖНОСТЬ** | SomaFM Lush |
+| **ГЛУБИНА** | SomaFM Deep Space One |
 
-## Features
+## Controls
 
-- Real HTML5 Audio streaming
-- Frequency dial animation
-- VU meters (Web Audio API with graceful fallback)
-- Volume dial + favorites (localStorage)
-- Bilingual Russian / English UI
-- Power on/off, play/pause, error states («СВЯЗЬ ПРЕРВАНА»)
+- **ВКЛ / ВЫКЛ** — power
+- **ПУСК / СТОП** — play / pause
+- **Channel buttons** — retune
+- **Volume dial** — volume (saved)
+- **★** — favorites (localStorage)
+
+Status messages bilingual RU/EN. On stream failure: **СВЯЗЬ ПРЕРВАНА**.
