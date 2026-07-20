@@ -1,0 +1,141 @@
+@import "tailwindcss";
+
+@theme {
+  --font-display: "Oswald", "Arial Narrow", system-ui, sans-serif;
+  --font-body: "Manrope", system-ui, sans-serif;
+  --font-mono: "Share Tech Mono", ui-monospace, monospace;
+  --color-crimson: #8b1a1a;
+  --color-crimson-deep: #5c0a0a;
+  --color-gold: #c9a227;
+  --color-gold-bright: #e8c547;
+  --color-steel: #3a3d42;
+  --color-crt-green: #33ff66;
+  --color-led-red: #ff2020;
+}
+
+* { box-sizing: border-box; }
+html, body, #root { margin: 0; padding: 0; min-height: 100%; height: 100%; }
+body {
+  font-family: var(--font-body);
+  background: #0d0a08;
+  color: #e8dcc8;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+.metal-panel {
+  background:
+    radial-gradient(ellipse at 20% 0%, rgba(255,255,255,0.04) 0%, transparent 50%),
+    linear-gradient(145deg, #4a4e56 0%, #2e3136 40%, #1f2125 70%, #2a2d32 100%);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.12), inset 0 -2px 4px rgba(0,0,0,0.5), 0 8px 32px rgba(0,0,0,0.6);
+}
+.metal-dark {
+  background: linear-gradient(160deg, #2a2c30 0%, #15171a 50%, #1c1e22 100%);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.06), inset 0 -1px 3px rgba(0,0,0,0.6);
+}
+.crimson-plate {
+  background:
+    radial-gradient(ellipse at 30% 20%, rgba(180,40,40,0.3) 0%, transparent 60%),
+    linear-gradient(165deg, #6b1212 0%, #3d0808 45%, #5a0e0e 100%);
+  box-shadow: inset 0 1px 0 rgba(255,180,180,0.15), inset 0 -2px 6px rgba(0,0,0,0.5);
+}
+.brass-rim {
+  border: 2px solid #8a7020;
+  box-shadow: 0 0 0 1px #c9a22744, inset 0 1px 0 rgba(232,197,71,0.3), 0 2px 8px rgba(0,0,0,0.5);
+}
+.rivet {
+  width: 10px; height: 10px; border-radius: 50%;
+  background: radial-gradient(circle at 35% 30%, #8a8e96, #3a3d42 60%, #1a1c1f);
+  box-shadow: 0 1px 2px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,255,255,0.25);
+}
+.led-power {
+  width: 12px; height: 12px; border-radius: 50%;
+  background: #3a1010;
+  box-shadow: inset 0 1px 3px rgba(0,0,0,0.8);
+  transition: all 0.3s ease;
+}
+.led-power.on {
+  background: radial-gradient(circle at 40% 35%, #ff6666, #ff2020 50%, #990000);
+  box-shadow: 0 0 8px #ff2020, 0 0 20px #ff202088, inset 0 1px 0 rgba(255,255,255,0.4);
+  animation: led-pulse 2s ease-in-out infinite;
+}
+@keyframes led-pulse { 0%,100%{opacity:1} 50%{opacity:0.75} }
+.crt-glow {
+  text-shadow: 0 0 4px var(--color-crt-green), 0 0 12px rgba(51,255,102,0.4);
+  color: var(--color-crt-green);
+  font-family: var(--font-mono);
+}
+.gold-engrave {
+  color: var(--color-gold);
+  text-shadow: 0 1px 0 rgba(0,0,0,0.8), 0 -1px 0 rgba(255,220,100,0.15);
+  letter-spacing: 0.12em;
+  font-family: var(--font-display);
+  text-transform: uppercase;
+}
+.channel-btn {
+  position: relative;
+  background: linear-gradient(180deg, #3a2a1a 0%, #1a1008 100%);
+  border: 1px solid #5a4020;
+  color: #c9a080;
+  font-family: var(--font-display);
+  letter-spacing: 0.06em;
+  transition: all 0.15s ease;
+  cursor: pointer;
+  box-shadow: inset 0 1px 0 rgba(255,200,100,0.1), 0 2px 4px rgba(0,0,0,0.4);
+}
+.channel-btn:hover { background: linear-gradient(180deg, #4a3520 0%, #2a1810 100%); color: #e8c080; }
+.channel-btn.active {
+  background: linear-gradient(180deg, #6b1a1a 0%, #3d0a0a 100%);
+  border-color: #c9a227;
+  color: #ffd070;
+  box-shadow: inset 0 0 12px rgba(200,40,40,0.4), 0 0 8px rgba(201,162,39,0.3);
+}
+.channel-btn:active { transform: translateY(1px); }
+.knob-face {
+  background: radial-gradient(circle at 40% 35%, #5a5040 0%, #2a2218 45%, #1a140e 70%, #0a0806 100%);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.6), inset 0 2px 4px rgba(255,220,150,0.15), inset 0 -3px 6px rgba(0,0,0,0.5);
+  border: 2px solid #6a5a30;
+}
+.dial-face {
+  background:
+    radial-gradient(ellipse at 50% 40%, #2a3428 0%, #0a120c 70%),
+    repeating-linear-gradient(90deg, transparent, transparent 19px, rgba(51,255,102,0.08) 19px, rgba(51,255,102,0.08) 20px);
+  box-shadow: inset 0 0 40px rgba(0,0,0,0.8), inset 0 0 8px rgba(51,255,102,0.15), 0 2px 0 rgba(201,162,39,0.3);
+}
+.star-red { fill: #c41e1e; filter: drop-shadow(0 0 4px rgba(196,30,30,0.6)); }
+.ambient-grid {
+  background-color: #0d0a08;
+  background-image:
+    linear-gradient(rgba(201,162,39,0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(201,162,39,0.03) 1px, transparent 1px);
+  background-size: 40px 40px;
+}
+@keyframes needle-flicker {
+  0%,100% { transform: rotate(var(--needle-angle, 0deg)); }
+  25% { transform: rotate(calc(var(--needle-angle, 0deg) + 1.5deg)); }
+  75% { transform: rotate(calc(var(--needle-angle, 0deg) - 1deg)); }
+}
+.needle-anim { animation: needle-flicker 0.8s ease-in-out infinite; transform-origin: bottom center; }
+.scanlines::after {
+  content: ""; position: absolute; inset: 0;
+  background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,0,0,0.08) 2px, rgba(0,0,0,0.08) 4px);
+  pointer-events: none; border-radius: inherit;
+}
+input[type="range"].soviet-slider {
+  -webkit-appearance: none; appearance: none; width: 100%; height: 8px; border-radius: 2px;
+  background: linear-gradient(90deg, #1a1008, #3a2a1a); border: 1px solid #5a4020; outline: none; cursor: pointer;
+}
+input[type="range"].soviet-slider::-webkit-slider-thumb {
+  -webkit-appearance: none; appearance: none; width: 22px; height: 22px; border-radius: 50%;
+  background: radial-gradient(circle at 35% 30%, #d4a84b, #8a6020 60%, #4a3010);
+  border: 2px solid #c9a227; box-shadow: 0 2px 6px rgba(0,0,0,0.5); cursor: grab;
+}
+input[type="range"].soviet-slider::-moz-range-thumb {
+  width: 22px; height: 22px; border-radius: 50%;
+  background: radial-gradient(circle at 35% 30%, #d4a84b, #8a6020 60%, #4a3010);
+  border: 2px solid #c9a227; box-shadow: 0 2px 6px rgba(0,0,0,0.5); cursor: grab;
+}
+::-webkit-scrollbar { width: 8px; }
+::-webkit-scrollbar-track { background: #1a1410; }
+::-webkit-scrollbar-thumb { background: #5a4020; border-radius: 2px; }
+@media (max-width: 640px) { .rivet { width: 6px; height: 6px; } }
