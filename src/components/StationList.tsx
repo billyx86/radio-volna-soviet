@@ -7,18 +7,43 @@ export function StationList() {
   const setStation = usePlayerStore((s) => s.setStation);
   const favorites = usePlayerStore((s) => s.favorites);
   const toggleFavorite = usePlayerStore((s) => s.toggleFavorite);
+  const favOnly = usePlayerStore((s) => s.favOnly);
+  const toggleFavOnly = usePlayerStore((s) => s.toggleFavOnly);
   const powered = usePlayerStore((s) => s.powered);
   const status = usePlayerStore((s) => s.status);
+
+  const visible = favOnly
+    ? STATIONS.filter((s) => favorites.includes(s.id) || station.id === s.id)
+    : STATIONS;
 
   return (
     <div className="flex flex-col gap-1.5 max-h-[420px] overflow-y-auto pr-1">
       <div className="flex items-center justify-between mb-1 px-1">
         <span className="text-[10px] gold-engrave">КАНАЛЫ · CHANNELS</span>
-        <span className="text-[9px] text-yellow-700/70 font-mono">
-          {STATIONS.length} УКВ
-        </span>
+        <div className="flex items-center gap-2">
+          <button
+            type="button"
+            onClick={toggleFavOnly}
+            className={`text-[9px] font-mono px-1.5 py-0.5 rounded-sm border transition-colors ${
+              favOnly
+                ? "border-yellow-500 text-yellow-400 bg-yellow-500/10"
+                : "border-yellow-900/50 text-yellow-700/70 hover:text-yellow-500"
+            }`}
+            aria-pressed={favOnly}
+          >
+            ★ ИЗБРАННОЕ
+          </button>
+          <span className="text-[9px] text-yellow-700/70 font-mono">
+            {visible.length} УКВ
+          </span>
+        </div>
       </div>
-      {STATIONS.map((s) => {
+      {visible.length === 0 && (
+        <div className="text-[10px] text-yellow-700/60 font-mono px-2 py-3 text-center">
+          Нет избранного — нажмите ★ у канала
+        </div>
+      )}
+      {visible.map((s) => {
         const active = station.id === s.id;
         const fav = favorites.includes(s.id);
         return (

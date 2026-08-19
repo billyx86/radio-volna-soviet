@@ -39,6 +39,7 @@ type PlayerState = {
   status: PlayerStatus;
   volume: number;
   favorites: string[];
+  favOnly: boolean;
   errorMessage: string | null;
   dialFreq: number;
   vuLevel: number;
@@ -47,6 +48,7 @@ type PlayerState = {
   setStatus: (status: PlayerStatus, errorMessage?: string | null) => void;
   setVolume: (volume: number) => void;
   toggleFavorite: (id: string) => void;
+  toggleFavOnly: () => void;
   setDialFreq: (freq: number) => void;
   setVuLevel: (level: number) => void;
   setPowered: (on: boolean) => void;
@@ -57,6 +59,7 @@ export const usePlayerStore = create<PlayerState>((set, get) => ({
   status: "idle",
   volume: loadVolume(),
   favorites: loadFavorites(),
+  favOnly: false,
   errorMessage: null,
   dialFreq: STATIONS[0]!.freq,
   vuLevel: 0,
@@ -86,6 +89,7 @@ export const usePlayerStore = create<PlayerState>((set, get) => ({
     }
     set({ favorites: next });
   },
+  toggleFavOnly: () => set((s) => ({ favOnly: !s.favOnly })),
   setDialFreq: (freq) => set({ dialFreq: freq }),
   setVuLevel: (level) => set({ vuLevel: level }),
   setPowered: (on) =>
