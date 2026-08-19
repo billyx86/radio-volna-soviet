@@ -7,6 +7,10 @@ export function useAudioPlayer() {
   const ctxRef = useRef<AudioContext | null>(null);
   const sourceRef = useRef<MediaElementAudioSourceNode | null>(null);
   const rafRef = useRef<number>(0);
+  // Monotonic token: each play() run checks it before every await, so a
+  // stale run (user retuned mid-load) aborts instead of clobbering the
+  // newer run's element/status.
+  const playTokenRef = useRef(0);
 
   const station = usePlayerStore((s) => s.station);
   const status = usePlayerStore((s) => s.status);
@@ -82,6 +86,9 @@ export function useAudioPlayer() {
     if (!powered) return;
     const el = ensureAudio();
     const st = usePlayerStore.getState().station;
+    const token = ++playTokenRef.current;
+    // Bail out of this run if a newer play() started after any await.
+    const stale = () => playTokenRef.current !== token;
 
     setStatus("tuning");
     // Animate dial sweep briefly
@@ -89,9 +96,11 @@ export function useAudioPlayer() {
     const end = st.freq;
     const steps = 12;
     for (let i = 0; i <= steps; i++) {
+      if (stale()) return;
       setDialFreq(start + ((end - start) * i) / steps);
       await new Promise((r) => setTimeout(r, 30));
     }
+    if (stale()) return;
 
     setStatus("buffering");
     try {
@@ -121,10 +130,15 @@ export function useAudioPlayer() {
           resolve();
         }, 8000);
       });
+      // A newer play() started while we were buffering — the stale run
+      // must not touch the element or status again.
+      if (stale()) return;
 
       await el.play();
+      if (stale()) return;
       setStatus("playing");
     } catch {
+      if (stale()) return;
       setStatus("error", "СВЯЗЬ ПРЕРВАНА · SIGNAL LOST");
       setVuLevel(0);
     }
