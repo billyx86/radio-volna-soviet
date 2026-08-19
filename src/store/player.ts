@@ -15,7 +15,7 @@ const VOL_KEY = "radio-volna-volume";
 function loadFavorites(): string[] {
   if (typeof window === "undefined") return [];
   try {
-    const raw = localStorage.getItem(FAV_KEY);
+    const raw = window.localStorage.getItem(FAV_KEY);
     return raw ? (JSON.parse(raw) as string[]) : [];
   } catch {
     return [];
@@ -25,7 +25,7 @@ function loadFavorites(): string[] {
 function loadVolume(): number {
   if (typeof window === "undefined") return 0.7;
   try {
-    const raw = localStorage.getItem(VOL_KEY);
+    const raw = window.localStorage.getItem(VOL_KEY);
     if (raw == null) return 0.7;
     const n = Number(raw);
     return Number.isFinite(n) ? Math.min(1, Math.max(0, n)) : 0.7;
@@ -75,7 +75,7 @@ export const usePlayerStore = create<PlayerState>((set, get) => ({
   setVolume: (volume) => {
     const v = Math.min(1, Math.max(0, volume));
     if (typeof window !== "undefined") {
-      localStorage.setItem(VOL_KEY, String(v));
+      window.localStorage.setItem(VOL_KEY, String(v));
     }
     set({ volume: v });
   },
@@ -85,7 +85,7 @@ export const usePlayerStore = create<PlayerState>((set, get) => ({
       ? current.filter((x) => x !== id)
       : [...current, id];
     if (typeof window !== "undefined") {
-      localStorage.setItem(FAV_KEY, JSON.stringify(next));
+      window.localStorage.setItem(FAV_KEY, JSON.stringify(next));
     }
     set({ favorites: next });
   },
