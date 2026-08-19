@@ -2,6 +2,8 @@
 
 Soviet-style **working internet radio** web app. Crimson steel chassis, gold brass, CRT green dial, bakelite knobs — streams real live stations.
 
+[![CI](https://github.com/billyx86/radio-volna-soviet/actions/workflows/ci.yml/badge.svg)](https://github.com/billyx86/radio-volna-soviet/actions/workflows/ci.yml)
+
 ## Quick play (no install)
 
 Open the standalone console:
@@ -36,6 +38,6 @@ Runs on `0.0.0.0:8080`.
 - **ПУСК / СТОП** — play / pause
 - **Channel buttons** — retune
 - **Volume dial** — volume (saved)
-- **★** — favorites (localStorage)
+- **★** — favorites (localStorage); **★ ИЗБРАННОЕ** — show favorites only
 
 Status messages bilingual RU/EN. On stream failure: **СВЯЗЬ ПРЕРВАНА**.
