@@ -1,5 +1,6 @@
 import { useEffect, useRef, useCallback } from "react";
 import { usePlayerStore } from "../store/player";
+import { createVuFlicker } from "../lib/vu";
 
 export function useAudioPlayer() {
   const audioRef = useRef<HTMLAudioElement | null>(null);
@@ -11,6 +12,12 @@ export function useAudioPlayer() {
   // stale run (user retuned mid-load) aborts instead of clobbering the
   // newer run's element/status.
   const playTokenRef = useRef(0);
+  // Simulated VU flicker, re-seeded per station (deterministic per id —
+  // see src/lib/vu.ts). Replacing the old per-frame Math.random().
+  const vuFlickerRef = useRef<{ id: string; fn: () => number }>({
+    id: "",
+    fn: () => 0,
+  });
 
   const station = usePlayerStore((s) => s.station);
   const status = usePlayerStore((s) => s.status);
@@ -64,8 +71,14 @@ export function useAudioPlayer() {
       const avg = sum / data.length / 255;
       setVuLevel(Math.min(1, avg * 1.8));
     } else if (playing) {
-      // Simulated needle flicker when analyser unavailable
-      setVuLevel(0.35 + Math.random() * 0.45);
+      // Simulated needle flicker when analyser unavailable. Lazily
+      // (re)seed the PRNG when the station changes so each channel's
+      // needle behaviour is stable and testable.
+      const stId = usePlayerStore.getState().station.id;
+      if (vuFlickerRef.current.id !== stId) {
+        vuFlickerRef.current = { id: stId, fn: createVuFlicker(stId) };
+      }
+      setVuLevel(vuFlickerRef.current.fn());
     } else {
       setVuLevel(0);
     }

@@ -1,6 +1,7 @@
 import { STATIONS } from "../data/stations";
 import { usePlayerStore } from "../store/player";
 import { Star } from "lucide-react";
+import { isChannelNavKey, nextChannelIndex } from "../lib/keyboard";
 
 export function StationList() {
   const station = usePlayerStore((s) => s.station);
@@ -16,8 +17,31 @@ export function StationList() {
     ? STATIONS.filter((s) => favorites.includes(s.id) || station.id === s.id)
     : STATIONS;
 
+  const onKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
+    if (!isChannelNavKey(e.key) || !powered) return;
+    const activeIdx = visible.findIndex((s) => s.id === station.id);
+    const next = nextChannelIndex(e.key, activeIdx, visible.length);
+    if (next < 0 || next === activeIdx) return;
+    e.preventDefault();
+    const target = visible[next];
+    if (!target) return;
+    setStation(target);
+    // Focus follows selection — requestAnimationFrame so the button is in
+    // the DOM for the same paint (favOnly filtering can re-render it).
+    requestAnimationFrame(() => {
+      document
+        .getElementById(`channel-${target.id}`)
+        ?.focus({ preventScroll: true });
+    });
+  };
+
   return (
-    <div className="flex flex-col gap-1.5 max-h-[420px] overflow-y-auto pr-1">
+    <div
+      role="group"
+      aria-label="КАНАЛЫ · CHANNELS"
+      onKeyDown={onKeyDown}
+      className="flex flex-col gap-1.5 max-h-[420px] overflow-y-auto pr-1"
+    >
       <div className="flex items-center justify-between mb-1 px-1">
         <span className="text-[10px] gold-engrave">КАНАЛЫ · CHANNELS</span>
         <div className="flex items-center gap-2">
@@ -50,8 +74,14 @@ export function StationList() {
           <div key={s.id} className="flex items-stretch gap-1">
             <button
               type="button"
+              id={`channel-${s.id}`}
               disabled={!powered}
               onClick={() => setStation(s)}
+              // Roving tabindex: only the tuned channel is a tab stop;
+              // ArrowUp/ArrowDown/Home/End (handled by the group) move
+              // focus and retune, so the list is fully keyboard-driven.
+              tabIndex={active ? 0 : -1}
+              aria-pressed={active}
               className={`channel-btn flex-1 text-left px-3 py-2.5 rounded-sm min-h-[48px] ${
                 active ? "active" : ""
               } ${!powered ? "opacity-40 cursor-not-allowed" : ""}`}

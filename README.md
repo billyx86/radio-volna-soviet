@@ -41,3 +41,27 @@ Runs on `0.0.0.0:8080`.
 - **★** — favorites (localStorage); **★ ИЗБРАННОЕ** — show favorites only
 
 Status messages bilingual RU/EN. On stream failure: **СВЯЗЬ ПРЕРВАНА**.
+
+Channel list is keyboard-operable: focus a channel (or the tuned one) and
+use **↑ / ↓ / Home / End** to scan the dial — selection retunes on the fly.
+
+## Development
+
+```bash
+npm install
+npm run typecheck   # tsc --noEmit
+npm test            # vitest
+npm run build       # typecheck + vite build
+```
+
+### Station data
+
+`src/data/stations.ts` is the single source of truth. The standalone
+`radio.html` embeds its own copy (it has no build step and must work from
+`file://`), so regenerate it after editing stations:
+
+```bash
+npm run sync:stations
+```
+
+CI fails if the two ever drift (`npm run sync:stations:check`).
