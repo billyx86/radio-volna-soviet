@@ -5,6 +5,8 @@
   "scripts": {
     "dev": "vite --host 0.0.0.0 --port 8080",
     "build": "tsc --noEmit && vite build",
+    "sync:stations": "node scripts/sync-stations.mjs",
+    "sync:stations:check": "node scripts/sync-stations.mjs --check",
     "typecheck": "tsc --noEmit",
     "preview": "vite preview --host 0.0.0.0 --port 8080",
     "test": "vitest run",

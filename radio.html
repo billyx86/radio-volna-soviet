@@ -151,14 +151,14 @@ footer{display:flex;justify-content:space-between;padding:8px 16px;border-top:1p
 </div>
 <script>
 const STATIONS=[
-  {id:"volna-1",code:"В-1",nameRu:"ВОЛНА-1 · Классика",nameEn:"VOLNA-1 · Classics",freq:88.1,streamUrl:"https://stream.radioparadise.com/aac-128",description:"Всемирная классика и эфирные шедевры"},
-  {id:"volna-2",code:"В-2",nameRu:"ВОЛНА-2 · Джаз",nameEn:"VOLNA-2 · Jazz",freq:91.5,streamUrl:"https://ice1.somafm.com/groovesalad-128-mp3",description:"Джаз, downtempo и groove salad"},
-  {id:"kosmos",code:"КОС",nameRu:"КОСМОС",nameEn:"KOSMOS",freq:94.2,streamUrl:"https://ice1.somafm.com/dronezone-128-mp3",description:"Космический дрон и глубокий ambient"},
-  {id:"trud",code:"ТРД",nameRu:"ТРУД",nameEn:"TRUD",freq:97.0,streamUrl:"https://ice1.somafm.com/defcon-128-mp3",description:"Электронная музыка для трудовой смены"},
-  {id:"orbita",code:"ОРБ",nameRu:"ОРБИТА",nameEn:"ORBITA",freq:100.3,streamUrl:"https://ice1.somafm.com/spacestation-128-mp3",description:"Орбитальная станция — space music"},
-  {id:"mayak",code:"МЯК",nameRu:"МАЯК · FIP",nameEn:"MAYAK · FIP",freq:103.7,streamUrl:"https://icecast.radiofrance.fr/fip-midfi.mp3",description:"FIP — эклектика мирового эфира"},
-  {id:"lush",code:"ЛШ",nameRu:"НЕЖНОСТЬ",nameEn:"LUSH",freq:106.1,streamUrl:"https://ice1.somafm.com/lush-128-mp3",description:"Мягкие волны и женский вокал"},
-  {id:"deep",code:"ГЛБ",nameRu:"ГЛУБИНА",nameEn:"DEPTH",freq:108.0,streamUrl:"https://ice1.somafm.com/deepspaceone-128-mp3",description:"Глубокий космос — deep space one"},
+  {"id":"volna-1","code":"В-1","nameRu":"ВОЛНА-1 · Классика","nameEn":"VOLNA-1 · Classics","genre":"Classical","freq":88.1,"streamUrl":"https://stream.radioparadise.com/aac-128","description":"Всемирная классика и эфирные шедевры"},
+  {"id":"volna-2","code":"В-2","nameRu":"ВОЛНА-2 · Джаз","nameEn":"VOLNA-2 · Jazz","genre":"Jazz","freq":91.5,"streamUrl":"https://ice1.somafm.com/groovesalad-128-mp3","description":"Джаз, downtempo и groove salad"},
+  {"id":"kosmos","code":"КОС","nameRu":"КОСМОС","nameEn":"KOSMOS","genre":"Ambient","freq":94.2,"streamUrl":"https://ice1.somafm.com/dronezone-128-mp3","description":"Космический дрон и глубокий ambient"},
+  {"id":"trud","code":"ТРД","nameRu":"ТРУД","nameEn":"TRUD","genre":"Electronic","freq":97,"streamUrl":"https://ice1.somafm.com/defcon-128-mp3","description":"Электронная музыка для трудовой смены"},
+  {"id":"orbita","code":"ОРБ","nameRu":"ОРБИТА","nameEn":"ORBITA","genre":"Space","freq":100.3,"streamUrl":"https://ice1.somafm.com/spacestation-128-mp3","description":"Орбитальная станция — space music"},
+  {"id":"mayak","code":"МЯК","nameRu":"МАЯК · FIP","nameEn":"MAYAK · FIP","genre":"Eclectic","freq":103.7,"streamUrl":"https://icecast.radiofrance.fr/fip-midfi.mp3","description":"FIP — эклектика мирового эфира"},
+  {"id":"lush","code":"ЛШ","nameRu":"НЕЖНОСТЬ","nameEn":"LUSH","genre":"Chill","freq":106.1,"streamUrl":"https://ice1.somafm.com/lush-128-mp3","description":"Мягкие волны и женский вокал"},
+  {"id":"deep","code":"ГЛБ","nameRu":"ГЛУБИНА","nameEn":"DEPTH","genre":"Deep Space","freq":108,"streamUrl":"https://ice1.somafm.com/deepspaceone-128-mp3","description":"Глубокий космос — deep space one"},
 ];
 const STATUS={idle:{ru:"ГОТОВ",en:"STANDBY",c:"#c9a227"},tuning:{ru:"НАСТРОЙКА",en:"TUNING",c:"#e8c547"},buffering:{ru:"ПРИЁМ",en:"BUFFERING",c:"#66aaff"},playing:{ru:"В ЭФИРЕ",en:"ON AIR",c:"#33ff66"},paused:{ru:"ПАУЗА",en:"PAUSED",c:"#888"},error:{ru:"СВЯЗЬ ПРЕРВАНА",en:"SIGNAL LOST",c:"#ff3333"},off:{ru:"ВЫКЛ",en:"OFF",c:"#444"}};
 let station=STATIONS[0],status="idle",volume=0.7,powered=true,favs=new Set();
