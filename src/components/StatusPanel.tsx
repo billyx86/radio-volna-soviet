@@ -31,7 +31,12 @@ export function StatusPanel() {
           <span className="text-[9px] font-mono text-red-400/80">ПИТАНИЕ</span>
         </div>
       </div>
+      {/* aria-live so screen readers announce state changes (tuning, on air,
+          signal lost, off) — the visual text alone is silent to AT users. */}
       <div
+        role="status"
+        aria-live="polite"
+        aria-atomic="true"
         className="font-mono text-lg sm:text-xl tracking-wider"
         style={{
           color: info.color,
@@ -39,6 +44,7 @@ export function StatusPanel() {
         }}
       >
         {info.ru}
+        <span className="sr-only"> / {info.en}</span>
       </div>
       <div className="text-[11px] opacity-50 font-mono mt-0.5">{info.en}</div>
       {powered && (
@@ -52,7 +58,10 @@ export function StatusPanel() {
         </div>
       )}
       {status === "error" && errorMessage && (
-        <div className="mt-2 text-xs text-red-400 font-mono animate-pulse">
+        <div
+          role="alert"
+          className="mt-2 text-xs text-red-400 font-mono animate-pulse"
+        >
           ⚠ {errorMessage}
         </div>
       )}
