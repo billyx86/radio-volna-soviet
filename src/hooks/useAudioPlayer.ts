@@ -60,35 +60,37 @@ export function useAudioPlayer() {
     }
   }, []);
 
-  const tickVu = useCallback(() => {
-    const analyser = analyserRef.current;
-    const playing = usePlayerStore.getState().status === "playing";
-    if (analyser && playing) {
-      const data = new Uint8Array(analyser.frequencyBinCount);
-      analyser.getByteFrequencyData(data);
-      let sum = 0;
-      for (let i = 0; i < data.length; i++) sum += data[i] ?? 0;
-      const avg = sum / data.length / 255;
-      setVuLevel(Math.min(1, avg * 1.8));
-    } else if (playing) {
-      // Simulated needle flicker when analyser unavailable. Lazily
-      // (re)seed the PRNG when the station changes so each channel's
-      // needle behaviour is stable and testable.
-      const stId = usePlayerStore.getState().station.id;
-      if (vuFlickerRef.current.id !== stId) {
-        vuFlickerRef.current = { id: stId, fn: createVuFlicker(stId) };
-      }
-      setVuLevel(vuFlickerRef.current.fn());
-    } else {
-      setVuLevel(0);
-    }
-    rafRef.current = requestAnimationFrame(tickVu);
-  }, [setVuLevel]);
-
+  // VU meter loop. A plain function declaration (hoisted) rather than a
+  // self-referencing const callback: the rAF self-schedule then reads a
+  // hoisted binding, which the react-hooks/immutability rule accepts.
   useEffect(() => {
-    rafRef.current = requestAnimationFrame(tickVu);
+    function tick() {
+      const analyser = analyserRef.current;
+      const playing = usePlayerStore.getState().status === "playing";
+      if (analyser && playing) {
+        const data = new Uint8Array(analyser.frequencyBinCount);
+        analyser.getByteFrequencyData(data);
+        let sum = 0;
+        for (let i = 0; i < data.length; i++) sum += data[i] ?? 0;
+        const avg = sum / data.length / 255;
+        setVuLevel(Math.min(1, avg * 1.8));
+      } else if (playing) {
+        // Simulated needle flicker when analyser unavailable. Lazily
+        // (re)seed the PRNG when the station changes so each channel's
+        // needle behaviour is stable and testable.
+        const stId = usePlayerStore.getState().station.id;
+        if (vuFlickerRef.current.id !== stId) {
+          vuFlickerRef.current = { id: stId, fn: createVuFlicker(stId) };
+        }
+        setVuLevel(vuFlickerRef.current.fn());
+      } else {
+        setVuLevel(0);
+      }
+      rafRef.current = requestAnimationFrame(tick);
+    }
+    rafRef.current = requestAnimationFrame(tick);
     return () => cancelAnimationFrame(rafRef.current);
-  }, [tickVu]);
+  }, [setVuLevel]);
 
   useEffect(() => {
     const el = ensureAudio();

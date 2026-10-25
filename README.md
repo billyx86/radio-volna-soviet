@@ -49,10 +49,14 @@ use **↑ / ↓ / Home / End** to scan the dial — selection retunes on the fly
 
 ```bash
 npm install
+npm run lint        # eslint (flat config, TS + react-hooks)
 npm run typecheck   # tsc --noEmit
 npm test            # vitest
 npm run build       # typecheck + vite build
 ```
+
+Lint, typecheck, tests, the stations sync check, and the production build
+all run in CI and gate every pull request.
 
 ### Station data
 
