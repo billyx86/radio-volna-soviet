@@ -49,10 +49,14 @@ use **↑ / ↓ / Home / End** to scan the dial — selection retunes on the fly
 
 ```bash
 npm install
+npm run lint        # eslint (flat config, TS + react-hooks)
 npm run typecheck   # tsc --noEmit
 npm test            # vitest
 npm run build       # typecheck + vite build
 ```
+
+Lint, typecheck, tests, the stations sync check, and the production build
+all run in CI and gate every pull request.
 
 ### Station data
 
@@ -65,3 +69,14 @@ npm run sync:stations
 ```
 
 CI fails if the two ever drift (`npm run sync:stations:check`).
+
+The standalone file's other hand-maintained code is gated too:
+
+```bash
+npm run check:radio:html   # node --check on radio.html's inline <script>
+```
+
+and the vitest suite (`npm test`) includes a parity test that extracts
+radio.html's VU PRNG source and asserts it still matches `src/lib/vu.ts`
+exactly. Together with the sync check this keeps the no-build file from
+silently rotting.
